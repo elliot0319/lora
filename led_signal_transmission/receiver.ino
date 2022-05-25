@@ -14,7 +14,10 @@ void setup() {
 	delay(20);
         Serial.print("AT+NETWORKID=5\r\n");
         delay(20);
-        Serial.print("AT+MODE=1\r\n");
+	// AES128 Password (Should be set the same as the one on the transmitter side)
+	// Serial.print("AT+CPIN=");
+	// delay(20);
+        Serial.print("AT+MODE=0\r\n"); // 1=Transmit and Receive mode
         delay(20);
         Serial.print("AT+BAND=868500000\r\n");
         delay(20);
