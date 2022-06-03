@@ -28,7 +28,7 @@ void setup() {
 
 void loop() {
 	if (millis() > lastTransmission + interval) {
-		Serial.println("AT+SEND=1,6,Hello!");
+		Serial.println("AT+SEND=2,6,Hello!");
 		digitalWrite(ledPin, HIGH);
 		delay(100);
 		digitalWrite(ledPin, LOW);
