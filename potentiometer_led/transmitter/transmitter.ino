@@ -21,7 +21,7 @@ void loop()
   //Serial.println("AT+SEND=0,3,val");
   lora.println(cmd);
   while(lora.available()){
-    Serial.write(lora.read());
+    Serial.write(lora.read()); # lora.readdf is askii 
   }
   Serial.println();
   Serial.println(cmd);

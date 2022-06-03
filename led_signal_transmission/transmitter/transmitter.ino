@@ -2,6 +2,7 @@
 
 unsigned long lastTransmission;
 const int interval = 1000;
+String incomingString;
 
 void setup() {
 	// Change the baud rate according to the manual
@@ -11,7 +12,7 @@ void setup() {
 	delay(20);
 	Serial.print("AT+IPR=9600\r\n");
 	delay(20);
-	Serial.print("AT+ADDRESS=1\r\n")
+	Serial.print("AT+ADDRESS=1\r\n");
 	delay(20);
 	Serial.print("AT+NETWORKID=5\r\n");
 	delay(20);
@@ -29,9 +30,15 @@ void setup() {
 void loop() {
 	if (millis() > lastTransmission + interval) {
 		Serial.println("AT+SEND=2,6,Hello!");
-		digitalWrite(ledPin, HIGH);
-		delay(100);
-		digitalWrite(ledPin, LOW);
+    delay(200);
+    if (Serial.available()) {
+      incomingString = Serial.read();
+      if (incomingString.indexOf("+OK") > 0) {
+        digitalWrite(ledPin, HIGH);
+        delay(100);
+        digitalWrite(ledPin, LOW);
+        }
+	    }
 		lastTransmission = millis();
 	}
 }
