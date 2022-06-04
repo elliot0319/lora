@@ -1,7 +1,7 @@
 import serial
 from time import sleep
 
-ser = serial.Serial("/dev/ttyso", 9600) # Change the baud rate accordingly
+ser = serial.Serial("/dev/ttyS0", 9600) # Change the baud rate accordingly
 sleep(0.02)
 ser.write("AT+RESET\r\n")
 sleep(0.02)
@@ -22,5 +22,5 @@ while True:
     sleep(0.03)
     data_left = ser.inWating() # Check for remaining byte
     received_data += ser.read(data_left)
-    print(received_data)
+    print(received_data, type(received_data))
     
