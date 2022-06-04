@@ -9,15 +9,19 @@ void setup() {
   Serial.begin(9600);
   
   // set the data rate for the SoftwareSerial port
-  //ReyaxLoRa.begin(9600);
-  ReyaxLoRa.begin(115200); //--> 115200 is the Reyax RYLR896 890 LoRa default baud rate
+  ReyaxLoRa.begin(9600);
+  //ReyaxLoRa.begin(115200); //--> 115200 is the Reyax RYLR896 890 LoRa default baud rate
 
   delay(100);
 
   ReyaxLoRa.print("AT\r\n");
-  delay(200);
-  ReyaxLoRa.print("AT+ADDRESS?\r\n");
-  Serial.print("AT\r\n");
+  delay(20);
+  //ReyaxLoRa.print("AT+RESET\r\n"); // Sending command to lora module Nothing appears on the serial monitor
+  //delay(20);
+  //ReyaxLoRa.print("AT+IPR=9600\r\n");
+  //delay(20);
+  ReyaxLoRa.print("AT+IPR?\r\n");
+  // Serial.print("AT\r\n");
 }
 
 void loop() { 
