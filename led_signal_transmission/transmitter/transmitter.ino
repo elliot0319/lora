@@ -29,10 +29,11 @@ void setup() {
 
 void loop() {
 	if (millis() > lastTransmission + interval) {
-		Serial.println("AT+SEND=2,6,Hello!");
+		Serial.println("AT\r\n");
     delay(200);
     if (Serial.available()) {
       incomingString = Serial.read();
+      Serial.print(incomingString);
       if (incomingString.indexOf("+OK") > 0) {
         digitalWrite(ledPin, HIGH);
         delay(100);
