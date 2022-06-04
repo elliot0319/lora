@@ -1,45 +1,47 @@
+#include <SoftwareSerial.h>
 #define ledPin 2
 
-unsigned long lastTransmission;
-const int interval = 1000;
-String incomingString;
+SoftwareSerial ReyaxLoRa(5, 4); //--> RX, TX
+
+int data_length; 
+String data;
+
+int Stat_LED = HIGH;
 
 void setup() {
-	// Change the baud rate according to the manual
-	Serial.begin(9600);
-	delay(20);
-	Serial.print("AT+RESET\r\n");
-	delay(20);
-	Serial.print("AT+IPR=9600\r\n");
-	delay(20);
-	Serial.print("AT+ADDRESS=1\r\n");
-	delay(20);
-	Serial.print("AT+NETWORKID=5\r\n");
-	delay(20);
-	// AES128 Password (Should be the same as the one set on the receiver side)
-	// Serial.print("AT+CPIN");
-	// delau(20);
-	Serial.print("AT+MODE=1\r\n");
-	delay(20);
-	Serial.print("AT+BAND=868500000\r\n");
-	delay(20);
-	Serial.print("AT+PARAMETER=10,7,1,7\r\n");
-	pinMode(ledPin, OUTPUT);
+  // put your setup code here, to run once:
+  
+  Serial.begin(9600); 
+  ReyaxLoRa.begin(9600);
+  delay(100); 
+  ReyaxLoRa.print("AT\r\n");
+  Serial.print("AT\r\n");
+  ReyaxLoRa.print("AT+IPR=9600\r\n");
+  delay(20);
+  ReyaxLoRa.print("AT+ADDRESS=1\r\n");
+  delay(20);
+  ReyaxLoRa.print("AT+NETWORKID=5\r\n");
+  delay(20);
+  ReyaxLoRa.print("AT+MODE=0\r\n");
+  delay(20);
+  ReyaxLoRa.print("AT+BAND=868500000\r\n");
+  delay(20);
+  ReyaxLoRa.print("AT+PARAMETER=10,7,1,7\r\n");
+  delay(20);
+  pinMode(ledPin, OUTPUT)
 }
 
 void loop() {
-	if (millis() > lastTransmission + interval) {
-		Serial.println("AT\r\n");
-    delay(200);
-    if (Serial.available()) {
-      incomingString = Serial.read();
-      Serial.print(incomingString);
-      if (incomingString.indexOf("+OK") > 0) {
-        digitalWrite(ledPin, HIGH);
-        delay(100);
-        digitalWrite(ledPin, LOW);
-        }
-	    }
-		lastTransmission = millis();
-	}
+  // put your main code here, to run repeatedly:
+  Stat_LED = !Stat_LED;
+  data = String(Stat_LED);
+  data_length = data.length();
+  String mymessage;
+  digitalWrite(ledPin, HIGH);
+  mymessage = mymessage + "AT+SEND=2" + "," + data_length + "," + data + "\r\n";
+  ReyaxLoRa.print(mymessage); //--> Send Data
+  Serial.print("Send Data : "); 
+  Serial.print(mymessage);
+  digitalWrite(ledPin, LOW);
+  delay(2000);
 }
