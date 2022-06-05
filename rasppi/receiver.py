@@ -20,7 +20,7 @@ ser.write("AT+PARAMETER=10,7,1,7\r\n")
 while True:
     received_data = ser.read() # Read Serial Port
     sleep(0.03)
-    data_left = ser.inWating() # Check for remaining byte
+    data_left = ser.inWaiting() # Check for remaining byte
     received_data += ser.read(data_left)
     print(received_data, type(received_data))
     
